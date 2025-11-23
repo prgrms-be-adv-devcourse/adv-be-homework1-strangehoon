@@ -1,0 +1,42 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  application:
+    name: hw1
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    driver-class-name: org.postgresql.Driver
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:create}
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: ${SPRING_JPA_PROPERTIES_HIBERNATE_JDBC_TIME_ZONE:UTC}
+
+  batch:
+    jdbc:
+      initialize-schema: never
+    task:
+      scheduling:
+        cron:
+          settlement: ${SETTLEMENT_CRON:}
+
+api:
+  v1: /api/v1
+settlement:
+  async:
+    enabled: ${SETTLEMENT_ASYNC:false}
+    pool-size: ${SETTLEMENT_ASYNC_POOL_SIZE:5}
+
+payment:
+  toss:
+    secret-key: ${PAYMENT_TOSS_SECRET_KEY}
+    success-url: ${PAYMENT_TOSS_SUCCESS_URL}
+    fail-url: ${PAYMENT_TOSS_FAIL_URL}
